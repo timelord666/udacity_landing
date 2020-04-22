@@ -13,6 +13,26 @@
  * 
 */
 
+document.addEventListener('DOMContentLoaded', () => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * Define Global Variables
  * 
@@ -55,3 +75,30 @@
 // Set sections as active
 
 
+const section = document.querySelectorAll('section[data-nav]');
+const nav = document.querySelector('#navbar__list'),
+        fragment = document.createDocumentFragment();
+
+        section.forEach(e => {
+            const li = document.createElement('li'),
+            a = document.createElement('a');
+
+
+            a.href = '#' + e.id;
+            a.classList.add('menu__link');
+            a.textContent = e.getAttribute('data-nav');
+
+            li.appendChild(a);
+            fragment.appendChild(li);
+
+
+        });
+        
+
+        nav.appendChild(fragment);
+
+
+
+
+
+});
