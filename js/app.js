@@ -32,10 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let timeOut;
     
     
+    
 
     const nav = document.querySelector('#navbar__list'),
             fragment = document.createDocumentFragment(),
-            up = document.querySelector('.up__btn');
+            up = document.querySelector('.up__btn'),
+            main = document.querySelector('main');
+            
             
 
 
@@ -202,7 +205,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
+    main.addEventListener('click', e => {
+        if (e.target.nodeName === 'I') {
+            e.target.classList.toggle('up');
+            e.target.classList.toggle('down');
+            
+            e.target.nextElementSibling.classList.toggle('hidden');
+        }
+        
+    });
   
 
         
