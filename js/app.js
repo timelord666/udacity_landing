@@ -212,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.nodeName === 'I') {
             e.target.classList.toggle('up');
             e.target.classList.toggle('down');
+            e.target.offsetParent.classList.toggle('collapse');
             
             e.target.nextElementSibling.classList.toggle('hidden');
         }
