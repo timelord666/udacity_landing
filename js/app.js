@@ -19,24 +19,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Define Global Variables
  * 
 */
+
+
+    let sections = document.querySelectorAll('section[data-nav]');
+
+    let currentSection = sections[0];
+    let currentLink = null;
+    let timeOut;
+    
+    
+
+    const nav = document.querySelector('#navbar__list'),
+            fragment = document.createDocumentFragment();
+            
+
 
 
 /**
@@ -44,44 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
  * Start Helper Functions
  * 
 */
-
-
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
-// build the nav
-
-
-// Add class 'active' to section when near top of viewport
-
-
-// Scroll to anchor ID using scrollTO event
-
-
-/**
- * End Main Functions
- * Begin Events
- * 
-*/
-
-// Build menu 
-
-// Scroll to section on link click
-
-// Set sections as active
-
-
-const section = document.querySelectorAll('section[data-nav]');
-const nav = document.querySelector('#navbar__list'),
-        fragment = document.createDocumentFragment();
-
-        section.forEach(e => {
+    function updateNav() {
+        sections = document.querySelectorAll('section[data-nav]');
+        nav.innerHTML = '';
+        sections.forEach(e => {
             const li = document.createElement('li'),
-            a = document.createElement('a');
+                a = document.createElement('a');
 
 
             a.href = '#' + e.id;
@@ -93,9 +61,138 @@ const nav = document.querySelector('#navbar__list'),
 
 
         });
-        
 
         nav.appendChild(fragment);
+
+    }
+
+
+    function checkView(e) {
+
+        const scroll = window.scrollY || window.pageYOffset,
+                boundsTop = e.getBoundingClientRect().top + scroll;
+
+
+        const viewport = {
+            top: scroll,
+            bottom: scroll + window.innerHeight,
+        }
+
+        const bounds = {
+            top: boundsTop,
+            bottom: boundsTop + e.clientHeight,
+        }
+
+
+        return (bounds.top + 300) < viewport.top;
+
+    }
+
+    
+    
+    function scrollHandler() {
+        nav.classList.remove('hidden');
+        clearInterval(timeOut);
+        let start = 0,
+            end = sections.length;
+            
+            
+        
+        
+        
+        
+        while (start != end) {
+            let mid = start + Math.floor((end - start) / 2);
+            
+            
+            if (checkView(sections[mid])) {
+                start = mid + 1;
+
+            } else {
+                end = mid;
+            }
+        }
+
+        
+        
+        
+        
+        if (currentSection != sections[end]) {
+            currentSection.classList.remove('current');
+            currentSection = sections[end];
+            currentSection.classList.add('current');
+            currentLink.classList.remove('current__link')
+            currentLink = document.querySelector(`a[href = '#${currentSection.id}']`);
+            currentLink.classList.add('current__link');
+            
+        }
+
+
+        timeOut = setTimeout(() => {
+            nav.classList.add('hidden');
+        }, 3000);
+
+            
+
+    }
+
+
+
+/**
+ * End Helper Functions
+
+ * 
+*/
+
+
+
+
+
+
+
+
+
+
+// Build menu 
+
+    updateNav();
+    currentLink = document.querySelector(`a[href = '#${currentSection.id}']`);
+    
+        
+  
+
+// Scroll to section on link click
+
+    nav.addEventListener('click', e => {
+
+        e.preventDefault();
+
+
+        document.querySelector(e.target.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+
+
+
+
+    });
+
+// Set sections as active
+
+    scrollHandler();
+
+    window.addEventListener('scroll', scrollHandler);
+
+
+
+
+  
+
+        
+        
+
+        
+
 
 
 
