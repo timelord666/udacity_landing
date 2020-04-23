@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * End Global Variables
- * Start Helper Functions
+ * Start  Functions
  * 
 */
     function updateNav() {
@@ -71,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+// check element clsoe enough to window's top    
+
     function checkView(e) {
 
         const scroll = window.scrollY || window.pageYOffset,
@@ -92,19 +94,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    
-    
-    function scrollHandler() {
+    function showNav() {
         nav.classList.remove('hidden');
         clearInterval(timeOut);
+    }
+
+    function hideNav() {
+        timeOut = setTimeout(() => {
+            nav.classList.add('hidden');
+        }, 3000);
+    }
+
+    function setUpBtn() {
+        if (currentSection === sections[sections.length - 1]) {
+            up.classList.remove('hidden');
+        } else {
+            up.classList.add('hidden');
+        }
+    }
+
+    function setActiveState(pos) {
+        if (currentSection != sections[pos]) {
+            currentSection.classList.remove('current');
+            currentSection = sections[pos];
+            currentSection.classList.add('current');
+            currentLink.classList.remove('current__link')
+            currentLink = document.querySelector(`a[href = '#${currentSection.id}']`);
+            currentLink.classList.add('current__link');
+
+        }
+    }
+
+   
+    
+    function scrollHandler() {
+        // nav bar hadling
+        showNav();
+
+
+        //binary search for sections wthin the view
         let start = 0,
             end = sections.length;
-            
-            
-        
-        
-        
-        
         while (start != end) {
             let mid = start + Math.floor((end - start) / 2);
             
@@ -119,59 +149,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
         
         
+        //Setting active state to section and link
+        setActiveState(end);
         
-        
-        if (currentSection != sections[end]) {
-            currentSection.classList.remove('current');
-            currentSection = sections[end];
-            currentSection.classList.add('current');
-            currentLink.classList.remove('current__link')
-            currentLink = document.querySelector(`a[href = '#${currentSection.id}']`);
-            currentLink.classList.add('current__link');
-            
-        }
+
+        // nav bar hadling
+        hideNav();
 
 
-        timeOut = setTimeout(() => {
-            nav.classList.add('hidden');
-        }, 3000);
-
-
-        if (currentSection === sections[sections.length - 1]) {
-            up.classList.remove('hidden');
-        } else {
-            up.classList.add('hidden');
-        }
-            
-
+        // up btn handling
+        setUpBtn();
     }
 
 
 
 /**
- * End Helper Functions
+ * End  Functions
 
  * 
 */
 
 
-
-
-
-
-
-
-
-
-// Build menu 
+// Building the Nav, update nav link
 
     updateNav();
     currentLink = document.querySelector(`a[href = '#${currentSection.id}']`);
     
         
-  
+  /* Events start */
 
-// Scroll to section on link click
+// set events for scrolling
 
     nav.addEventListener('click', e => {
 
@@ -181,10 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector(e.target.getAttribute('href')).scrollIntoView({
             behavior: 'smooth'
         });
-
-
-
-
     });
 
     up.addEventListener('click', e => {
@@ -197,13 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     });
 
-// Set sections as active
 
+// set active states
     scrollHandler();
 
     window.addEventListener('scroll', scrollHandler);
 
-
+// managing collapse    
 
     main.addEventListener('click', e => {
         if (e.target.nodeName === 'I') {
@@ -214,16 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
     });
-  
 
         
-        
-
-        
-
-
-
-
-
+/* Events end */
 
 });
