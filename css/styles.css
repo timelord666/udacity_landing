@@ -66,7 +66,7 @@ main {
 
 section {
     position: relative;
-    min-height: 40vh;
+    min-height: 80vh;
 }
 
 
@@ -271,4 +271,9 @@ section.current .landing__container::after {
 /* hidden class for js */
 .hidden {
     display: none;
+}
+
+/* class for collapsed section by js */
+.collapse {
+    min-height: 40vh;
 }
