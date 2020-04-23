@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     const nav = document.querySelector('#navbar__list'),
-            fragment = document.createDocumentFragment();
+            fragment = document.createDocumentFragment(),
+            up = document.querySelector('.up__btn');
             
 
 
@@ -132,6 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
             nav.classList.add('hidden');
         }, 3000);
 
+
+        if (currentSection === sections[sections.length - 1]) {
+            up.classList.remove('hidden');
+        } else {
+            up.classList.add('hidden');
+        }
             
 
     }
@@ -175,6 +182,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    });
+
+    up.addEventListener('click', e => {
+        e.preventDefault();
+
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+        })
     });
 
 // Set sections as active
